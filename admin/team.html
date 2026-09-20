@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        مدیریت تیم | Soheil Studio Coding
+    </title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f8f5;
+            color: #18352a;
+        }
+
+        header {
+            background: #174d3b;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #174d3b;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5e2dc;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .add-button {
+            background: #174d3b;
+            color: white;
+        }
+
+        .edit-button {
+            background: #d9a441;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .delete-button {
+            background: #b42318;
+            color: white;
+        }
+
+        .cancel-button {
+            background: #71857b;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(270px, 1fr));
+            gap: 20px;
+        }
+
+        .member-card {
+            border: 1px solid #dce8e2;
+            border-radius: 14px;
+            padding: 20px;
+            background: #fbfdfc;
+        }
+
+        .member-card h3 {
+            margin-top: 0;
+            color: #174d3b;
+        }
+
+        .role {
+            color: #658477;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .skills {
+            color: #486458;
+            line-height: 1.8;
+        }
+
+        .member-image {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            margin-bottom: 15px;
+            border: 3px solid #dce8e2;
+        }
+
+        .empty {
+            color: #71857b;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-title {
+            color: #174d3b;
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        👥 مدیریت تیم — Soheil Studio Coding
+    </h1>
+
+</header>
+
+
+<main>
+
+
+    <!-- =========================================
+         فرم افزودن / ویرایش
+    ========================================== -->
+
+    <section class="box">
+
+        <h2
+            id="form-title"
+            class="form-title"
+        >
+            ➕ افزودن عضو جدید
+        </h2>
+
+
+        <form id="team-form">
+
+
+            <label for="name">
+                نام و نام خانوادگی
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                required
+            >
+
+
+            <label for="role">
+                سمت / تخصص
+            </label>
+
+            <input
+                type="text"
+                id="role"
+                placeholder="مثلاً Frontend Developer"
+                required
+            >
+
+
+            <label for="bio">
+                معرفی کوتاه
+            </label>
+
+            <textarea
+                id="bio"
+                placeholder="توضیح کوتاهی درباره عضو تیم..."
+            ></textarea>
+
+
+            <label for="skills">
+                مهارت‌ها
+            </label>
+
+            <input
+                type="text"
+                id="skills"
+                placeholder="HTML, CSS, JavaScript"
+            >
+
+
+            <label for="image_url">
+                لینک تصویر
+            </label>
+
+            <input
+                type="url"
+                id="image_url"
+                placeholder="https://..."
+            >
+
+
+            <button
+                type="submit"
+                id="submit-button"
+                class="add-button"
+            >
+                ➕ افزودن عضو
+            </button>
+
+
+            <button
+                type="button"
+                id="cancel-button"
+                class="cancel-button hidden"
+            >
+                لغو ویرایش
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =========================================
+         لیست اعضای تیم
+    ========================================== -->
+
+    <section class="box">
+
+        <h2>
+            👥 اعضای فعلی تیم
+        </h2>
+
+        <div
+            id="team-list"
+            class="team-grid"
+        ></div>
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+
+// =========================================
+// Supabase
+// =========================================
+
+const SUPABASE_URL =
+    "https://dzqyfwhkxryxdlirffgm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_bAl87XVHGf29B4GCLREfhw_RlPCg7Et";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+// =========================================
+// متغیر ویرایش
+// =========================================
+
+let editingMemberId = null;
+
+
+
+// =========================================
+// بررسی ورود ادمین
+// =========================================
+
+async function checkAdminLogin() {
+
+    const {
+        data: { session }
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+        window.location.href =
+            "login.html";
+
+        return false;
+    }
+
+
+    return true;
+}
+
+
+
+// =========================================
+// نمایش اعضای تیم
+// =========================================
+
+async function loadTeam() {
+
+    const teamList =
+        document.getElementById("team-list");
+
+
+    teamList.innerHTML =
+        "<p>⏳ در حال دریافت اعضای تیم...</p>";
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("team_members")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+        teamList.innerHTML =
+            "<p>❌ خطا در دریافت اعضای تیم.</p>";
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        teamList.innerHTML =
+            `
+            <div class="empty">
+                هنوز عضوی به تیم اضافه نشده است.
+            </div>
+            `;
+
+        return;
+    }
+
+
+    teamList.innerHTML = "";
+
+
+    data.forEach(member => {
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "member-card";
+
+
+        let imageHTML = "";
+
+
+        if (member.image_url) {
+
+            imageHTML =
+                `
+                <img
+                    src="${escapeHtml(member.image_url)}"
+                    class="member-image"
+                    alt="${escapeHtml(member.name)}"
+                >
+                `;
+
+        }
+
+
+        card.innerHTML = `
+
+            ${imageHTML}
+
+            <h3>
+                ${escapeHtml(member.name)}
+            </h3>
+
+            <div class="role">
+                ${escapeHtml(member.role)}
+            </div>
+
+            <p>
+                ${escapeHtml(member.bio || "")}
+            </p>
+
+            <div class="skills">
+                🛠️
+                ${escapeHtml(member.skills || "—")}
+            </div>
+
+            <button
+                class="edit-button"
+                onclick="editMember(${member.id})"
+            >
+                ✏️ ویرایش
+            </button>
+
+            <button
+                class="delete-button"
+                onclick="deleteMember(${member.id})"
+            >
+                🗑️ حذف
+            </button>
+
+        `;
+
+
+        teamList.appendChild(card);
+
+    });
+
+}
+
+
+
+// =========================================
+// افزودن / ویرایش عضو
+// =========================================
+
+document
+    .getElementById("team-form")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+
+            const role =
+                document
+                    .getElementById("role")
+                    .value
+                    .trim();
+
+
+            const bio =
+                document
+                    .getElementById("bio")
+                    .value
+                    .trim();
+
+
+            const skills =
+                document
+                    .getElementById("skills")
+                    .value
+                    .trim();
+
+
+            const image_url =
+                document
+                    .getElementById("image_url")
+                    .value
+                    .trim();
+
+
+
+            // =================================
+            // حالت ویرایش
+            // =================================
+
+            if (editingMemberId !== null) {
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from("team_members")
+                        .update({
+                            name,
+                            role,
+                            bio,
+                            skills,
+                            image_url
+                        })
+                        .eq(
+                            "id",
+                            editingMemberId
+                        );
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "❌ ویرایش عضو انجام نشد."
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    "✅ اطلاعات عضو با موفقیت ویرایش شد."
+                );
+
+
+                cancelEdit();
+
+
+                loadTeam();
+
+
+                return;
+
+            }
+
+
+
+            // =================================
+            // حالت افزودن
+            // =================================
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from("team_members")
+                    .insert([
+                        {
+                            name,
+                            role,
+                            bio,
+                            skills,
+                            image_url
+                        }
+                    ]);
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "❌ خطا در افزودن عضو:\n" +
+                    error.message
+                );
+
+                return;
+            }
+
+
+            alert(
+                "✅ عضو تیم با موفقیت اضافه شد."
+            );
+
+
+            document
+                .getElementById("team-form")
+                .reset();
+
+
+            loadTeam();
+
+        }
+    );
+
+
+
+// =========================================
+// شروع ویرایش
+// =========================================
+
+async function editMember(id) {
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("team_members")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ اطلاعات عضو دریافت نشد."
+        );
+
+        return;
+    }
+
+
+    editingMemberId = id;
+
+
+    document
+        .getElementById("name")
+        .value =
+        data.name || "";
+
+
+    document
+        .getElementById("role")
+        .value =
+        data.role || "";
+
+
+    document
+        .getElementById("bio")
+        .value =
+        data.bio || "";
+
+
+    document
+        .getElementById("skills")
+        .value =
+        data.skills || "";
+
+
+    document
+        .getElementById("image_url")
+        .value =
+        data.image_url || "";
+
+
+    document
+        .getElementById("form-title")
+        .textContent =
+        "✏️ ویرایش عضو تیم";
+
+
+    document
+        .getElementById("submit-button")
+        .textContent =
+        "💾 ذخیره تغییرات";
+
+
+    document
+        .getElementById("cancel-button")
+        .classList
+        .remove("hidden");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+
+// =========================================
+// لغو ویرایش
+// =========================================
+
+function cancelEdit() {
+
+
+    editingMemberId = null;
+
+
+    document
+        .getElementById("team-form")
+        .reset();
+
+
+    document
+        .getElementById("form-title")
+        .textContent =
+        "➕ افزودن عضو جدید";
+
+
+    document
+        .getElementById("submit-button")
+        .textContent =
+        "➕ افزودن عضو";
+
+
+    document
+        .getElementById("cancel-button")
+        .classList
+        .add("hidden");
+
+}
+
+
+document
+    .getElementById("cancel-button")
+    .addEventListener(
+        "click",
+        cancelEdit
+    );
+
+
+
+// =========================================
+// حذف عضو
+// =========================================
+
+async function deleteMember(id) {
+
+
+    const confirmed =
+        confirm(
+            "آیا مطمئن هستید که می‌خواهید این عضو را حذف کنید؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("team_members")
+            .delete()
+            .eq("id", id);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ حذف عضو انجام نشد."
+        );
+
+        return;
+    }
+
+
+    alert(
+        "✅ عضو حذف شد."
+    );
+
+
+    loadTeam();
+
+}
+
+
+
+// =========================================
+// جلوگیری از HTML Injection
+// =========================================
+
+function escapeHtml(value) {
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.textContent =
+        value ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+
+// =========================================
+// شروع صفحه
+// =========================================
+
+async function init() {
+
+
+    const loggedIn =
+        await checkAdminLogin();
+
+
+    if (!loggedIn) {
+        return;
+    }
+
+
+    loadTeam();
+
+}
+
+
+init();
+
+
+</script>
+
+</body>
+
+</html>

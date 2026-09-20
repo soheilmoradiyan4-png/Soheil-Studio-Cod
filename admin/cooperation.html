@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        درخواست‌های همکاری | Soheil Studio Coding
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f3f7f5;
+            color: #26352f;
+        }
+
+        header {
+            background: #174f3f;
+            color: white;
+            padding: 20px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 21px;
+        }
+
+        .back-button {
+            color: #174f3f;
+            background: white;
+
+            text-decoration: none;
+
+            padding: 9px 15px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            color: #174f3f;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #718078;
+            font-size: 14px;
+        }
+
+        .requests-container {
+            display: grid;
+            gap: 18px;
+        }
+
+        .request-card {
+            background: white;
+
+            border: 1px solid #e1eae5;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 7px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .request-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+
+            padding-bottom: 15px;
+
+            border-bottom: 1px solid #edf1ef;
+        }
+
+        .request-name {
+            color: #174f3f;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .request-date {
+            color: #89948f;
+
+            font-size: 12px;
+        }
+
+        .request-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        .info-item {
+            background: #f7faf8;
+
+            padding: 12px;
+
+            border-radius: 9px;
+        }
+
+        .info-label {
+            display: block;
+
+            color: #7c8882;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #26352f;
+
+            font-size: 14px;
+
+            word-break: break-word;
+        }
+
+        .skills {
+            margin-bottom: 15px;
+        }
+
+        .description {
+            background: #f7faf8;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            line-height: 1.9;
+
+            font-size: 14px;
+
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+
+            padding: 50px;
+
+            color: #718078;
+        }
+
+        .empty {
+            text-align: center;
+
+            background: white;
+
+            padding: 50px 20px;
+
+            border-radius: 16px;
+
+            color: #718078;
+        }
+
+        .error {
+            text-align: center;
+
+            background: #fff1f1;
+
+            color: #a33;
+
+            padding: 20px;
+
+            border-radius: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+            .request-info {
+                grid-template-columns: 1fr;
+            }
+
+            .request-header {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        🤝 درخواست‌های همکاری
+    </h1>
+
+    <a
+        href="dashboard.html"
+        class="back-button"
+    >
+        ← بازگشت به داشبورد
+    </a>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <section class="page-title">
+
+        <h2>
+            درخواست‌های همکاری ثبت‌شده
+        </h2>
+
+        <p>
+            در این قسمت اطلاعات افرادی که برای همکاری
+            درخواست داده‌اند نمایش داده می‌شود.
+        </p>
+
+    </section>
+
+
+
+    <section
+        id="requests-container"
+        class="requests-container"
+    >
+
+        <div class="loading">
+            ⏳ در حال دریافت درخواست‌ها...
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/admin-guard.js"></script>
+
+
+<script>
+
+    const SUPABASE_URL = "https://dzqyfwhkxryxdlirffgm.supabase.co";
+
+    const SUPABASE_KEY = "sb_publishable_bAl87XVHGf29B4GCLREfhw_RlPCg7Et";
+
+
+    const supabaseClient =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    async function initCooperationPage() {
+
+    const allowed =
+        await protectAdminPage("cooperation_manager");
+
+    if (!allowed) {
+        return;
+    }
+
+    console.log(
+        "✅ Cooperation page access granted"
+    );
+
+    await loadCooperationRequests();
+}
+    const container =
+        document.getElementById(
+            "requests-container"
+        );
+
+
+    async function loadCooperationRequests() {
+
+        // بررسی ورود مدیر
+
+        const {
+            data: {
+                session
+            }
+        } = await supabaseClient
+            .auth
+            .getSession();
+
+
+        if (!session) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        // دریافت درخواست‌های همکاری
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("cooperation_requests")
+
+            .select("*")
+
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Supabase Error:",
+                error
+            );
+
+            container.innerHTML = `
+                <div class="error">
+                    ❌ دریافت درخواست‌های همکاری انجام نشد.
+                    <br>
+                    Console را برای جزئیات بررسی کنید.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    📭 هنوز هیچ درخواست همکاری ثبت نشده است.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        data.forEach((request) => {
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "request-card";
+
+
+            const date =
+                request.created_at
+                    ? new Date(
+                        request.created_at
+                    ).toLocaleString("fa-IR")
+                    : "نامشخص";
+
+
+            card.innerHTML = `
+
+                <div class="request-header">
+
+                    <div class="request-name">
+                        ${escapeHtml(request.name)}
+                    </div>
+
+                    <div class="request-date">
+                        ${date}
+                    </div>
+
+                </div>
+
+
+                <div class="request-info">
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            📞 تلفن
+                        </span>
+
+                        <span class="info-value">
+                            ${escapeHtml(request.phone)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            📧 ایمیل
+                        </span>
+
+                        <span class="info-value">
+                            ${escapeHtml(request.email)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            🎂 سن
+                        </span>
+
+                        <span class="info-value">
+                            ${escapeHtml(request.age)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            🤝 نوع همکاری
+                        </span>
+
+                        <span class="info-value">
+                            ${escapeHtml(request.cooperationType)}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="info-item skills">
+
+                    <span class="info-label">
+                        💻 مهارت‌ها
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHtml(request.skills)}
+                    </span>
+
+                </div>
+
+
+                <div class="description">
+
+                    <strong>
+                        📝 توضیحات
+                    </strong>
+
+                    <br><br>
+
+                    ${escapeHtml(request.description)}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    initCooperationPage();
+
+</script>
+
+
+</body>
+
+</html>

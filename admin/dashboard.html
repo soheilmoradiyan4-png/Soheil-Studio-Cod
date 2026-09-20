@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        داشبورد مدیریت | Soheil Studio Coding
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+
+            min-height: 100vh;
+
+            background: #f3f7f5;
+
+            color: #26352f;
+        }
+
+
+        /* Header */
+
+        .admin-header {
+            background: #174f3f;
+
+            color: white;
+
+            padding: 20px 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .brand h1 {
+            font-size: 22px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .brand p {
+            font-size: 13px;
+
+            opacity: 0.8;
+        }
+
+
+        .logout-button {
+            border: none;
+
+            background: #ffffff;
+
+            color: #174f3f;
+
+            padding: 10px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .logout-button:hover {
+            background: #e8f2ee;
+        }
+
+
+        /* Main */
+
+        .container {
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+
+        .welcome h2 {
+            font-size: 27px;
+
+            margin-bottom: 10px;
+
+            color: #174f3f;
+        }
+
+
+        .welcome p {
+            color: #6d7974;
+
+            font-size: 14px;
+        }
+
+
+        /* Cards */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .dashboard-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 0, 0, 0.06);
+
+            border: 1px solid #e3ebe7;
+
+            transition: 0.2s;
+        }
+
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, 0.09);
+        }
+
+
+        .card-icon {
+            font-size: 35px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .dashboard-card h3 {
+            color: #174f3f;
+
+            margin-bottom: 10px;
+
+            font-size: 19px;
+        }
+
+
+        .dashboard-card p {
+            color: #707b76;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .card-button {
+            display: inline-block;
+
+            padding: 10px 18px;
+
+            background: #174f3f;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+        }
+
+
+        /* Footer */
+
+        .admin-footer {
+            text-align: center;
+
+            color: #8a9691;
+
+            font-size: 13px;
+
+            margin-top: 50px;
+
+            padding-bottom: 30px;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .admin-header {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                text-align: center;
+            }
+
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .welcome {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header class="admin-header">
+
+        <div class="brand">
+
+            <h1>
+                Soheil Studio Coding
+            </h1>
+
+            <p>
+                پنل مدیریت
+            </p>
+
+        </div>
+
+
+        <button
+            id="logout-button"
+            class="logout-button"
+        >
+            🚪 خروج
+        </button>
+
+    </header>
+
+
+
+    <main class="container">
+
+
+        <section class="welcome">
+
+            <h2>
+                👋 خوش آمدید مدیر
+            </h2>
+
+            <p>
+                از این قسمت می‌توانید بخش‌های مختلف سایت
+                را مدیریت کنید.
+            </p>
+
+        </section>
+
+
+
+        <section class="dashboard-grid">
+
+
+            <!-- Projects -->
+
+            <a
+    href="projects.html"
+    class="dashboard-card"
+    id="projects-card"
+>
+    📁 درخواست‌های پروژه
+</a>
+
+
+<a
+    href="cooperation.html"
+    class="dashboard-card"
+    id="cooperation-card"
+>
+    🤝 درخواست‌های همکاری
+</a>
+
+
+<a
+    href="team.html"
+    class="dashboard-card"
+    id="team-card"
+>
+    👥 مدیریت تیم
+</a>
+
+
+<a
+    href="admins.html"
+    class="dashboard-card"
+    id="admins-card"
+>
+    🔐 مدیران و دسترسی‌ها
+</a>
+
+        <div class="admin-footer">
+
+            © 2026 Soheil Studio Coding
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- Supabase -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://dzqyfwhkxryxdlirffgm.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bAl87XVHGf29B4GCLREfhw_RlPCg7Et";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+// ========================================
+// کنترل دسترسی بر اساس Role
+// ========================================
+
+function applyRolePermissions(role) {
+
+    console.log("🔥 ROLE RECEIVED:", role);
+
+    const projectsCard =
+        document.getElementById("projects-card");
+
+    const cooperationCard =
+        document.getElementById("cooperation-card");
+
+    const teamCard =
+        document.getElementById("team-card");
+
+    const adminsCard =
+        document.getElementById("admins-card");
+
+
+    console.log("📁 projects:", projectsCard);
+    console.log("🤝 cooperation:", cooperationCard);
+    console.log("👥 team:", teamCard);
+    console.log("🔐 admins:", adminsCard);
+
+
+    // ابتدا همه کارت‌ها مخفی
+    if (projectsCard) {
+        projectsCard.style.display = "none";
+    }
+
+    if (cooperationCard) {
+        cooperationCard.style.display = "none";
+    }
+
+    if (teamCard) {
+        teamCard.style.display = "none";
+    }
+
+    if (adminsCard) {
+        adminsCard.style.display = "none";
+    }
+
+
+    // ========================================
+    // Super Admin
+    // ========================================
+
+    if (role === "super_admin") {
+
+        if (projectsCard) {
+            projectsCard.style.display = "";
+        }
+
+        if (cooperationCard) {
+            cooperationCard.style.display = "";
+        }
+
+        if (teamCard) {
+            teamCard.style.display = "";
+        }
+
+        if (adminsCard) {
+            adminsCard.style.display = "";
+        }
+
+    }
+
+
+    // ========================================
+    // Project Manager
+    // ========================================
+
+    else if (role === "project_manager") {
+
+        if (projectsCard) {
+            projectsCard.style.display = "";
+        }
+
+    }
+
+
+    // ========================================
+    // Cooperation Manager
+    // ========================================
+
+    else if (role === "cooperation_manager") {
+
+        if (cooperationCard) {
+            cooperationCard.style.display = "";
+        }
+
+    }
+
+
+    // ========================================
+    // Content Manager
+    // ========================================
+
+    else if (role === "content_manager") {
+
+        if (teamCard) {
+            teamCard.style.display = "";
+        }
+
+    }
+
+}
+
+
+// ========================================
+// بررسی ورود مدیر
+// ========================================
+
+async function checkAdminLogin() {
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+
+    // کاربر وارد نشده
+    if (!session) {
+
+        window.location.href = "login.html";
+
+        return null;
+    }
+
+
+    console.log(
+        "👤 Logged in:",
+        session.user.email
+    );
+
+    console.log(
+        "🆔 User ID:",
+        session.user.id
+    );
+
+
+    // دریافت نقش مدیر
+    const {
+        data: admin,
+        error
+    } = await supabaseClient
+        .from("admins")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .single();
+
+
+    if (error || !admin) {
+
+        console.error(
+            "❌ Admin Access Error:",
+            error
+        );
+
+        alert(
+            "❌ این حساب به عنوان مدیر ثبت نشده است."
+        );
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href = "login.html";
+
+        return null;
+    }
+
+
+    console.log(
+        "👑 Admin Role:",
+        admin.role
+    );
+
+
+    return {
+        session: session,
+        role: admin.role
+    };
+}
+
+
+// ========================================
+// شروع Dashboard
+// ========================================
+
+async function initDashboard() {
+
+    const admin = await checkAdminLogin();
+
+
+    if (!admin) {
+        return;
+    }
+
+
+    console.log(
+        "✅ Dashboard initialized"
+    );
+
+
+    console.log(
+        "🔥 Final Role:",
+        admin.role
+    );
+
+
+    applyRolePermissions(admin.role);
+
+}
+
+
+initDashboard();
+
+
+// ========================================
+// Logout
+// ========================================
+
+const logoutButton =
+    document.getElementById("logout-button");
+
+
+if (logoutButton) {
+
+    logoutButton.addEventListener(
+        "click",
+        async function() {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

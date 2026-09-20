@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        مدیران و دسترسی‌ها | Soheil Studio Coding
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f3f7f5;
+            color: #26352f;
+        }
+
+
+        header {
+            background: #174f3f;
+            color: white;
+
+            padding: 20px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+
+        header h1 {
+            font-size: 21px;
+        }
+
+
+        .back-button {
+            color: #174f3f;
+            background: white;
+
+            text-decoration: none;
+
+            padding: 9px 15px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h2 {
+            color: #174f3f;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-title p {
+            color: #718078;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+
+        .admins-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+
+        .admin-card {
+            background: white;
+
+            border: 1px solid #e1eae5;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 7px 22px
+                rgba(0, 0, 0, 0.05);
+        }
+
+
+        .admin-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .admin-avatar {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 50%;
+
+            background: #e5f0ea;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+
+        .admin-email {
+            color: #174f3f;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            word-break: break-word;
+        }
+
+
+        .admin-id {
+            color: #89948f;
+
+            font-size: 11px;
+
+            margin-top: 5px;
+
+            word-break: break-all;
+        }
+
+
+        .role-label {
+            display: block;
+
+            color: #718078;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .role-select {
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #dce7e1;
+
+            border-radius: 9px;
+
+            background: #f8faf9;
+
+            color: #26352f;
+
+            font-family: inherit;
+
+            outline: none;
+        }
+
+
+        .role-select:focus {
+            border-color: #6a9b84;
+        }
+
+
+        .save-button {
+            width: 100%;
+
+            margin-top: 14px;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #174f3f;
+
+            color: white;
+
+            font-family: inherit;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .save-button:hover {
+            background: #21634f;
+        }
+
+
+        .delete-button {
+            width: 100%;
+
+            margin-top: 9px;
+
+            padding: 10px;
+
+            border: 1px solid #e7cccc;
+
+            border-radius: 9px;
+
+            background: #fff5f5;
+
+            color: #a33;
+
+            font-family: inherit;
+
+            cursor: pointer;
+        }
+
+
+        .delete-button:hover {
+            background: #ffeaea;
+        }
+
+
+        .loading,
+        .empty,
+        .error {
+            text-align: center;
+
+            padding: 45px;
+
+            grid-column: 1 / -1;
+        }
+
+
+        .loading,
+        .empty {
+            color: #718078;
+        }
+
+
+        .error {
+            background: #fff1f1;
+
+            color: #a33;
+
+            border-radius: 12px;
+        }
+
+
+        .notice {
+            background: #edf6f1;
+
+            border: 1px solid #d8e9df;
+
+            color: #3f6253;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            line-height: 1.9;
+
+            font-size: 13px;
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+        }
+
+        /* ========================================
+   Add Admin Section
+======================================== */
+
+.add-admin-section {
+    max-width: 850px;
+    margin: 0 auto 40px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e1ebe6;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(23, 77, 59, 0.07);
+}
+
+.add-admin-section h2 {
+    margin: 0 0 25px;
+    color: #174d3b;
+    font-size: 22px;
+    text-align: center;
+}
+
+#add-admin-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+#add-admin-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-admin-form .form-group:last-of-type {
+    grid-column: 1 / -1;
+}
+
+#add-admin-form label {
+    margin-bottom: 8px;
+    color: #315c4b;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#add-admin-form input,
+#add-admin-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #d8e5df;
+    border-radius: 12px;
+    background: #f9fcfa;
+    color: #234d3d;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+#add-admin-form input:focus,
+#add-admin-form select:focus {
+    border-color: #6a9b84;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(106, 155, 132, 0.12);
+}
+
+#add-admin-form input::placeholder {
+    color: #9aaaA2;
+}
+
+#add-admin-form .admin-button {
+    grid-column: 1 / -1;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    background: #174d3b;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#add-admin-form .admin-button:hover {
+    background: #23664e;
+    transform: translateY(-1px);
+}
+
+#add-admin-form .admin-button:active {
+    transform: translateY(0);
+}
+
+
+/* ========================================
+   Mobile
+======================================== */
+
+@media (max-width: 650px) {
+
+    .add-admin-section {
+        margin: 0 15px 30px;
+        padding: 22px;
+    }
+
+    #add-admin-form {
+        grid-template-columns: 1fr;
+    }
+
+    #add-admin-form .form-group:last-of-type {
+        grid-column: auto;
+    }
+
+    #add-admin-form .admin-button {
+        grid-column: auto;
+    }
+}
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        🔐 مدیران و دسترسی‌ها
+    </h1>
+
+
+    <a
+        href="dashboard.html"
+        class="back-button"
+    >
+        ← بازگشت به داشبورد
+    </a>
+
+</header>
+
+<section class="add-admin-section">
+
+    <h2>➕ افزودن مدیر جدید</h2>
+
+    <form id="add-admin-form">
+
+        <div class="form-group">
+            <label for="admin-email">
+                ایمیل مدیر
+            </label>
+
+            <input
+                type="email"
+                id="admin-email"
+                placeholder="example@gmail.com"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="admin-password">
+                رمز عبور
+            </label>
+
+            <input
+                type="password"
+                id="admin-password"
+                placeholder="رمز عبور مدیر"
+                minlength="6"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="admin-role">
+                نقش مدیر
+            </label>
+
+            <select id="admin-role" required>
+
+                <option value="">
+                    انتخاب نقش
+                </option>
+
+                <option value="project_manager">
+                    مدیر پروژه
+                </option>
+
+                <option value="cooperation_manager">
+                    مدیر همکاری
+                </option>
+
+                <option value="content_manager">
+                    مدیر محتوا
+                </option>
+
+                <option value="super_admin">
+                    Super Admin
+                </option>
+
+            </select>
+        </div>
+
+
+        <button
+            type="submit"
+            class="admin-button"
+        >
+            ➕ ساخت مدیر
+        </button>
+
+    </form>
+
+</section>
+
+<main class="container">
+
+
+    <section class="page-title">
+
+        <h2>
+            مدیریت مدیران
+        </h2>
+
+        <p>
+            در این قسمت می‌توانید مدیران سیستم و سطح دسترسی آن‌ها را مدیریت کنید.
+        </p>
+
+    </section>
+
+
+
+    <div class="notice">
+
+        👑 فقط مدیر اصلی
+        <strong>(Super Admin)</strong>
+        باید به این بخش دسترسی داشته باشد.
+
+        <br>
+
+        ⚠️ در این مرحله فقط مدیریت Role مدیران را پیاده‌سازی می‌کنیم.
+
+    </div>
+
+
+
+    <section
+        id="admins-container"
+        class="admins-container"
+    >
+
+        <div class="loading">
+
+            ⏳ در حال دریافت مدیران...
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/admin-guard.js"></script>
+
+
+
+<script>
+
+    const SUPABASE_URL =
+        "https://dzqyfwhkxryxdlirffgm.supabase.co";
+
+
+    const SUPABASE_KEY =
+        "sb_publishable_bAl87XVHGf29B4GCLREfhw_RlPCg7Et";
+
+
+    const supabaseClient =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    const container =
+        document.getElementById(
+            "admins-container"
+        );
+
+const addAdminForm =
+    document.getElementById("add-admin-form");
+
+
+if (addAdminForm) {
+
+    addAdminForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document
+                    .getElementById("admin-email")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("admin-password")
+                    .value;
+
+
+            const role =
+                document
+                    .getElementById("admin-role")
+                    .value;
+
+
+            if (!email || !password || !role) {
+
+                alert(
+                    "❌ لطفاً همه فیلدها را کامل کنید."
+                );
+
+                return;
+            }
+
+
+            // دریافت Session مدیر فعلی
+            const {
+                data: {
+                    session
+                }
+            } =
+                await supabaseClient.auth.getSession();
+
+
+            if (!session) {
+
+                alert(
+                    "❌ نشست شما منقضی شده است."
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/admins/create",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${session.access_token}`
+                            },
+
+                            body: JSON.stringify({
+                                email,
+                                password,
+                                role
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok || !result.success) {
+
+                    alert(
+                        "❌ " +
+                        (
+                            result.message ||
+                            "ساخت مدیر ناموفق بود."
+                        )
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    "✅ مدیر جدید با موفقیت ساخته شد."
+                );
+
+
+                addAdminForm.reset();
+
+
+                // تازه‌سازی لیست مدیران
+                if (
+                    typeof loadAdmins ===
+                    "function"
+                ) {
+                    await loadAdmins();
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Create Admin Error:",
+                    error
+                );
+
+                alert(
+                    "❌ اتصال به سرور برقرار نشد."
+                );
+            }
+
+        }
+    );
+
+}
+
+    // ========================================
+    // شروع صفحه
+    // ========================================
+
+    async function initAdminsPage() {
+
+        const allowed =
+            await protectAdminPage(
+                "super_admin"
+            );
+
+
+        if (!allowed) {
+
+            return;
+
+        }
+
+
+        console.log(
+            "✅ Admin management access granted"
+        );
+
+
+        await loadAdmins();
+
+    }
+
+
+
+    // ========================================
+    // دریافت مدیران
+    // ========================================
+
+    async function loadAdmins() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("admins")
+
+            .select(
+                "id, user_id, role, created_at"
+            )
+
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Supabase Error:",
+                error
+            );
+
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    ❌ دریافت مدیران انجام نشد.
+
+                    <br><br>
+
+                    Console را برای جزئیات بررسی کنید.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        if (!data || data.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    📭 هنوز مدیری ثبت نشده است.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        data.forEach(
+            (admin) => {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "admin-card";
+
+
+                card.innerHTML = `
+
+                    <div class="admin-header">
+
+                        <div class="admin-avatar">
+
+                            👤
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="admin-email">
+
+                                مدیر سیستم
+
+                            </div>
+
+
+                            <div class="admin-id">
+
+                                User ID:
+                                ${escapeHtml(
+                                    admin.user_id
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="role-label">
+
+                        🔑 سطح دسترسی
+
+                    </label>
+
+
+                    <select
+                        class="role-select"
+                        id="role-${admin.id}"
+                    >
+
+                        <option
+                            value="super_admin"
+                            ${admin.role === "super_admin" ? "selected" : ""}
+                        >
+                            👑 مدیر اصلی
+                        </option>
+
+
+                        <option
+                            value="project_manager"
+                            ${admin.role === "project_manager" ? "selected" : ""}
+                        >
+                            📁 مدیر پروژه
+                        </option>
+
+
+                        <option
+                            value="cooperation_manager"
+                            ${admin.role === "cooperation_manager" ? "selected" : ""}
+                        >
+                            🤝 مدیر همکاری
+                        </option>
+
+
+                        <option
+                            value="content_manager"
+                            ${admin.role === "content_manager" ? "selected" : ""}
+                        >
+                            👥 مدیر محتوا
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="save-button"
+                        onclick="updateRole(
+                            ${admin.id}
+                        )"
+                    >
+
+                        💾 ذخیره تغییرات
+
+                    </button>
+
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteAdmin(
+                            ${admin.id}
+                        )"
+                    >
+
+                        🗑️ حذف مدیر
+
+                    </button>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+
+    // ========================================
+    // تغییر Role
+    // ========================================
+
+    async function updateRole(adminId) {
+
+        const select =
+            document.getElementById(
+                `role-${adminId}`
+            );
+
+
+        if (!select) {
+
+            return;
+
+        }
+
+
+        const newRole =
+            select.value;
+
+
+        const confirmed =
+            confirm(
+                "آیا از تغییر سطح دسترسی این مدیر مطمئن هستید؟"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } = await supabaseClient
+
+            .from("admins")
+
+            .update({
+                role: newRole
+            })
+
+            .eq(
+                "id",
+                adminId
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Update Error:",
+                error
+            );
+
+
+            alert(
+                "❌ تغییر سطح دسترسی انجام نشد."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "✅ سطح دسترسی با موفقیت تغییر کرد."
+        );
+
+
+        await loadAdmins();
+
+    }
+
+
+
+    // ========================================
+    // حذف مدیر
+    // ========================================
+
+    async function deleteAdmin(adminId) {
+
+        const confirmed =
+            confirm(
+                "⚠️ آیا مطمئن هستید که می‌خواهید این مدیر را حذف کنید؟"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } = await supabaseClient
+
+            .from("admins")
+
+            .delete()
+
+            .eq(
+                "id",
+                adminId
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Delete Error:",
+                error
+            );
+
+
+            alert(
+                "❌ حذف مدیر انجام نشد."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "✅ مدیر با موفقیت حذف شد."
+        );
+
+
+        await loadAdmins();
+
+    }
+
+
+
+    // ========================================
+    // جلوگیری از HTML Injection
+    // ========================================
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+    }
+
+
+
+    // ========================================
+    // اجرای صفحه
+    // ========================================
+
+    initAdminsPage();
+
+</script>
+
+
+</body>
+
+</html>

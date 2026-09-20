@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="درخواست همکاری با Soheil Studio Coding"
+    >
+
+    <title>
+        همکاری | Soheil Studio Coding
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         Header
+    ========================== -->
+
+    <header class="site-header">
+
+        <div class="container header-container">
+
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+                Soheil Studio Coding
+            </a>
+
+
+            <nav class="main-nav">
+
+                <a href="index.html">
+                    خانه
+                </a>
+
+                <a href="project.html">
+                    درخواست پروژه
+                </a>
+
+                <a
+                    href="cooperation.html"
+                    class="active"
+                >
+                    همکاری
+                </a>
+
+                <a href="about.html">
+                    درباره ما
+                </a>
+
+            </nav>
+
+
+            <button
+                class="menu-button"
+                type="button"
+                aria-label="باز کردن منو"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         Main
+    ========================== -->
+
+    <main>
+
+
+        <!-- Page Hero -->
+
+        <section class="page-hero">
+
+            <div class="container">
+
+                <span class="hero-label">
+                    همکاری با ما
+                </span>
+
+
+                <h1>
+                    به تیم ما ملحق شو
+                </h1>
+
+
+                <p>
+                    اگر در زمینه برنامه‌نویسی، طراحی یا
+                    تکنولوژی مهارتی داری، اطلاعاتت را
+                    برای ما ارسال کن تا بررسی کنیم.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Cooperation Form -->
+
+        <section class="form-section">
+
+            <div class="container">
+
+
+                <div class="form-wrapper">
+
+
+                    <div class="form-heading">
+
+                        <span>
+                            اطلاعات همکاری
+                        </span>
+
+
+                        <h2>
+                            درباره خودت به ما بگو
+                        </h2>
+
+
+                        <p>
+                            اطلاعات زیر را با دقت وارد کنید.
+                        </p>
+
+                    </div>
+
+
+
+                    <form id="cooperation-form">
+
+
+                        <!-- Name -->
+
+                        <div class="form-group">
+
+                            <label for="cooperation-name">
+                                نام و نام خانوادگی
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="cooperation-name"
+                                name="name"
+                                placeholder="مثلاً سهیل احمدی"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- Phone & Email -->
+
+                        <div class="form-row">
+
+
+                            <div class="form-group">
+
+                                <label for="cooperation-phone">
+                                    شماره تماس
+                                </label>
+
+
+                                <input
+                                    type="tel"
+                                    id="cooperation-phone"
+                                    name="phone"
+                                    placeholder="09xxxxxxxxx"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="cooperation-email">
+                                    ایمیل
+                                </label>
+
+
+                                <input
+                                    type="email"
+                                    id="cooperation-email"
+                                    name="email"
+                                    placeholder="example@email.com"
+                                    required
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- Age -->
+
+                        <div class="form-group">
+
+                            <label for="age">
+                                سن
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="age"
+                                name="age"
+                                min="12"
+                                max="100"
+                                placeholder="مثلاً 18"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- Skills -->
+
+                        <div class="form-group">
+
+                            <label for="skills">
+                                مهارت‌ها
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="skills"
+                                name="skills"
+                                placeholder="مثلاً JavaScript، Node.js، طراحی UI"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- Cooperation Type -->
+
+                        <div class="form-group">
+
+                            <label for="cooperation-type">
+                                نوع همکاری موردنظر
+                            </label>
+
+
+                            <select
+                                id="cooperation-type"
+                                name="cooperationType"
+                                required
+                            >
+
+                                <option value="">
+                                    انتخاب نوع همکاری
+                                </option>
+
+                                <option value="پروژه‌ای">
+                                    همکاری پروژه‌ای
+                                </option>
+
+                                <option value="دورکاری">
+                                    دورکاری
+                                </option>
+
+                                <option value="تمام وقت">
+                                    تمام وقت
+                                </option>
+
+                                <option value="پاره وقت">
+                                    پاره وقت
+                                </option>
+
+                                <option value="کارآموزی">
+                                    کارآموزی
+                                </option>
+
+                                <option value="سایر">
+                                    سایر
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- Description -->
+
+                        <div class="form-group">
+
+                            <label for="cooperation-description">
+                                توضیحات درخواست همکاری
+                            </label>
+
+
+                            <textarea
+                                id="cooperation-description"
+                                name="description"
+                                rows="7"
+                                placeholder="درباره خودت، سابقه کار، توانایی‌ها و نوع همکاری موردنظرت توضیح بده..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+
+                        <!-- Submit -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary submit-button"
+                        >
+                            ارسال درخواست همکاری
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         Footer
+    ========================== -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-container">
+
+
+            <div class="footer-brand">
+
+                <h3>
+                    Soheil Studio Coding
+                </h3>
+
+
+                <p>
+                    طراحی و توسعه راهکارهای دیجیتال
+                    برای ایده‌های بزرگ.
+                </p>
+
+            </div>
+
+
+
+            <div class="footer-links">
+
+                <h4>
+                    دسترسی سریع
+                </h4>
+
+
+                <a href="index.html">
+                    خانه
+                </a>
+
+
+                <a href="project.html">
+                    درخواست پروژه
+                </a>
+
+
+                <a href="cooperation.html">
+                    همکاری
+                </a>
+
+
+                <a href="about.html">
+                    درباره ما
+                </a>
+
+            </div>
+
+
+
+            <div class="footer-links">
+
+                <h4>
+                    خدمات
+                </h4>
+
+
+                <a href="#">
+                    طراحی سایت
+                </a>
+
+
+                <a href="#">
+                    Frontend
+                </a>
+
+
+                <a href="#">
+                    Backend
+                </a>
+
+
+                <a href="#">
+                    API
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Soheil Studio Coding — تمامی حقوق محفوظ است.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
