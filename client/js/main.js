@@ -4,6 +4,14 @@
 // =========================================
 
 
+// =========================================
+// آدرس تابع ثبت درخواست‌ها (Supabase Edge Function)
+// =========================================
+
+const SUBMIT_REQUEST_URL =
+    "https://dzqyfwhkxryxdlirffgm.supabase.co/functions/v1/submit-request";
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
 
@@ -51,6 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data = {
 
+                type: "project",
+
                 name: formData.get("name"),
 
                 phone: formData.get("phone"),
@@ -67,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
 
                 const response = await fetch(
-                    "/api/projects",
+                    SUBMIT_REQUEST_URL,
                     {
                         method: "POST",
 
@@ -95,7 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
 
                     alert(
-                        "❌ ارسال درخواست ناموفق بود."
+                        "❌ " +
+                        (
+                            result.message ||
+                            "ارسال درخواست ناموفق بود."
+                        )
                     );
 
                 }
@@ -135,6 +149,7 @@ if (cooperationForm) {
                 new FormData(cooperationForm);
 
             const data = {
+                type: "cooperation",
                 name: formData.get("name"),
                 phone: formData.get("phone"),
                 email: formData.get("email"),
@@ -150,7 +165,7 @@ if (cooperationForm) {
             try {
 
                 const response = await fetch(
-                    "/api/cooperation",
+                    SUBMIT_REQUEST_URL,
                     {
                         method: "POST",
 
@@ -178,7 +193,11 @@ if (cooperationForm) {
                 } else {
 
                     alert(
-                        "❌ ارسال درخواست همکاری ناموفق بود."
+                        "❌ " +
+                        (
+                            result.message ||
+                            "ارسال درخواست همکاری ناموفق بود."
+                        )
                     );
 
                 }
